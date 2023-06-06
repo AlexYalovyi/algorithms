@@ -6,19 +6,20 @@ def is_seller(name):
 def search(graph, name):
     search_queue = deque()
     searched = set()
-    search_queue += [name]
+    search_queue += [[name]]
 
     while len(search_queue) > 0:
-        person = search_queue.popleft()
+        line = search_queue.popleft()
+        person = line[-1]
 
         if person in searched:
             continue
         else:
             searched.add(person)
             if is_seller(person):
-                return True
+                return line
             else:
-                search_queue += graph[person]
+                search_queue.extend(list(map(lambda x: line + [x],graph[person])))
     
     return False
 
